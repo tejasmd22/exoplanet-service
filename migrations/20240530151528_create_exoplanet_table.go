@@ -9,6 +9,7 @@ const createExoplanet = "CREATE TABLE IF NOT EXISTS exoplanet (" +
 	"distance float NOT NULL, " +
 	"radius float NOT NULL, " +
 	"mass float NOT NULL, " +
+	"type varchar(100), " +
 	"created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
 	"updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 	"deleted_at timestamp NULL DEFAULT NULL, " +

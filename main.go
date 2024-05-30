@@ -19,6 +19,10 @@ func main() {
 	app.Migrate(migrations.All())
 
 	app.POST("/exoplanet", exoplanetHTTP.Create)
+	app.GET("/exoplanet", exoplanetHTTP.GetAll)
+	app.GET("/exoplanet/{id}", exoplanetHTTP.GetByID)
+	app.PUT("/exoplanet/{id}", exoplanetHTTP.Update)
+	app.DELETE("/exoplanet/{id}", exoplanetHTTP.Delete)
 
 	app.Run()
 }
