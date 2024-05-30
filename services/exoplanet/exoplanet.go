@@ -80,3 +80,22 @@ func (e *exoplanet) Delete(ctx *gofr.Context, id int) error {
 
 	return nil
 }
+
+func (e *exoplanet) CalculateFuelCost(ctx *gofr.Context, id, crewCapacity int) (float64, error) {
+	exoplanet, err := e.GetByID(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+
+	var gravity float64
+
+	if exoplanet.Type == models.GasGiant {
+		gravity = 0.5 / (exoplanet.Radius * exoplanet.Radius)
+	} else if exoplanet.Type == models.Terrestrial {
+		gravity = exoplanet.Mass / (exoplanet.Radius * exoplanet.Radius)
+	}
+
+	fuelCost := exoplanet.Distance / (gravity * gravity) * float64(crewCapacity)
+
+	return fuelCost, nil
+}

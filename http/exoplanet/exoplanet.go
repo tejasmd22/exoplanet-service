@@ -1,6 +1,7 @@
 package http
 
 import (
+	"strconv"
 	"sync"
 
 	"gofr.dev/pkg/gofr"
@@ -159,4 +160,26 @@ func (h *handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	}
 
 	return nil, nil
+}
+
+func (h *handler) CalculateFuelCost(ctx *gofr.Context) (interface{}, error) {
+	exoplanetID, err := h.validateExoplanetID(ctx.PathParam("id"))
+	if err != nil {
+		return nil, err
+	}
+
+	crewCapacityStr := ctx.Param("crewCapacity")
+	crewCapacity, err := strconv.Atoi(crewCapacityStr)
+	if err != nil || crewCapacity < 1 {
+		return nil, http.ErrorInvalidParam{Params: []string{"crewCapacity"}}
+	}
+
+	fuelCost, err := h.exoplanetServices.CalculateFuelCost(ctx, exoplanetID, crewCapacity)
+	if err != nil {
+		return nil, err
+	}
+
+	return struct {
+		FuelCost float64 `json:"fuelCost"`
+	}{FuelCost: fuelCost}, nil
 }

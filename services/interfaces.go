@@ -14,4 +14,5 @@ type Exoplanet interface {
 	Count(ctx *gofr.Context, filter *filters.Exoplanet) (int, error)
 	Update(ctx *gofr.Context, exoplanetUpdateRequest *models.ExoplanetUpdateRequest) (*models.Exoplanet, error)
 	Delete(ctx *gofr.Context, id int) error
+	CalculateFuelCost(ctx *gofr.Context, id, crewCapacity int) (float64, error)
 }

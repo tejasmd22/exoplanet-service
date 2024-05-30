@@ -23,6 +23,7 @@ func main() {
 	app.GET("/exoplanet/{id}", exoplanetHTTP.GetByID)
 	app.PUT("/exoplanet/{id}", exoplanetHTTP.Update)
 	app.DELETE("/exoplanet/{id}", exoplanetHTTP.Delete)
+	app.GET("/exoplanet/{id}/fuel-estimation", exoplanetHTTP.CalculateFuelCost)
 
 	app.Run()
 }

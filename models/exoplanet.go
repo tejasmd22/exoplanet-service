@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	gofrHTTP "gofr.dev/pkg/gofr/http"
 )
 
 type Exoplanet struct {
@@ -44,15 +46,34 @@ type ExoplanetDetail struct {
 }
 
 func (e *ExoplanetCreateRequest) Validate() error {
-	if e.Mass > 0 && !strings.EqualFold(string(e.Type), string(Terrestrial)) {
-		err := customError{error: "mass will be provided only in case of Terrestrial type of planet"}
-		return err
+	if e.Name == "" {
+		return gofrHTTP.ErrorMissingParam{Params: []string{"name"}}
+	}
+
+	if e.Distance < 10 || e.Distance > 1000 {
+		return customError{error: "distance must be between 10 and 1000 light years"}
+	}
+
+	if e.Radius < 0.1 || e.Radius > 10 {
+		return customError{error: "radius must be between 0.1 and 10 Earth-radius units"}
 	}
 
 	if e.Type != "" {
 		if !strings.EqualFold(string(e.Type), string(Terrestrial)) && !strings.EqualFold(string(e.Type), string(GasGiant)) {
 			err := customError{error: "only GasGiant or Terrestrial types are allowed"}
 			return err
+		}
+
+		if e.Mass > 0 && !strings.EqualFold(string(e.Type), string(Terrestrial)) {
+			err := customError{error: "mass will be provided only in case of Terrestrial type of planet"}
+			return err
+		}
+
+		if strings.EqualFold(string(e.Type), string(Terrestrial)) {
+			if e.Mass < 0.1 || e.Mass > 10 {
+				err := customError{error: "mass must be between 0.1 and 10 Earth-mass units for terrestrial planets"}
+				return err
+			}
 		}
 
 		e.Type = strings.ToUpper(e.Type)
