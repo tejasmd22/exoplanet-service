@@ -43,7 +43,7 @@ Dependency injection is utilized to manage dependencies between layers and compo
 To start using the Exoplanet Service:
 
 1. Clone the repository:
-- git clone [https://github.com/your-username/exoplanet-service.git](https://github.com/tejasmd22/exoplanet-service.git)
+- git clone [https://github.com/tejasmd22/exoplanet-service.git](https://github.com/tejasmd22/exoplanet-service.git)
 
 2. Navigate to the project directory:
 - cd exoplanet-service
