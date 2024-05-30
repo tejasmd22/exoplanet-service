@@ -1,0 +1,13 @@
+package stores
+
+import (
+	"gofr.dev/pkg/gofr"
+
+	"github.com/tejasmd22/exoplanet-service/models"
+)
+
+type Exoplanet interface {
+	Create(ctx *gofr.Context, exoplanetCreateRequest *models.ExoplanetCreateRequest) (*models.Exoplanet, error)
+	GetByID(ctx *gofr.Context, id int) (*models.Exoplanet, error)
+	// GetAll(ctx *gofr.Context, filter *filters.Exoplanet, page *models.Page) ([]*models.Exoplanet, error)
+}
